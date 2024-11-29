@@ -6,18 +6,14 @@ public class WaterRefillingStation{
     private int orderQuantity;
     private double totalAmount;
     private Date orderDate;
-    private Customer customer;
-    private Staff staff;
 
-    public WaterRefillingStation(int gallon, double price, String stationName, int orderQuantity, double totalAmount, Date orderDate, Customer customer, Staff staff){
+    public WaterRefillingStation(int gallon, double price, String stationName, int orderQuantity, Date orderDate){
         this.gallon = gallon;
         this.price = price;
         this.stationName = stationName;
         this.orderQuantity = orderQuantity;
         this.totalAmount = totalAmount;
         this.orderDate = orderDate;
-        this.customer = customer;
-        this.staff = staff;
     }
 
     public int getGallon() {
@@ -42,26 +38,26 @@ public class WaterRefillingStation{
 
     public Date getOrderDate() {
         return this.orderDate;
-    }
-    
-    public Customer getCustomer(){
-      return this.customer;
-    }
-    
-    public Staff getStaff(){
-      return this.staff;
+    }   
+
+    public void createOrder(String name, String address, int contactNo, Date date, String type, double total) {
+        System.out.println("Name: " + name);
+        System.out.println("Address: " + address);
+        System.out.println("Contact Number: " + contactNo);
+        System.out.println("Order placed: " + date);
+        System.out.println("Type: " + type);
+        System.out.println("Total Amount: " + total);
     }
 
-    public void createOrder(String ) {
-        
+    public double calculateTotalAmount(double price, int quantity) {
+        this.totalAmount = price * quantity;
+        return this.totalAmount;
     }
 
-    public double calculateTotalAmount() {
-        
-        return totalAmount;
-    }
-
-    public void displayDeliveryStatus() {
-        
+    public void displayDeliveryStatus(String staffName, String position, String address, String stationName){
+        System.out.println("Name: " + staffName);
+        System.out.println("Position: " + position);
+        System.out.println("Your gallon will be delivered by " + staffName + " within this day to" + address + ".");
+        System.out.println("Thank your for placing your order in " + stationName + ". Have a great day!");
     }
 }
