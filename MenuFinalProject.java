@@ -8,6 +8,7 @@ public class MenuFinalProject extends JFrame implements ActionListener{
    
    //Variables
    private String displayReceipt;
+   private String givenText;
    private String saveNameText;
    private String saveAddressText;
    private String saveContactNoText;
@@ -40,12 +41,13 @@ public class MenuFinalProject extends JFrame implements ActionListener{
    JLabel type;
    JLabel price;
    JLabel quantity;
+   JLabel orderPlaced;
    JTextField typeText;
    JTextField priceText;
    JTextField quantityText;
    JButton submitBTN;
       
-   public MenuFinalProject(String saveNameText, String saveAddressText, int changeContactNoText, String saveTypeText, double savePriceText, int changeSaveQuantityText, String displayReceipt){
+   public MenuFinalProject(){
       
       //Welcome GUI
       welcomeSign1 = new JLabel("Welcome to Water Refilling");
@@ -87,6 +89,12 @@ public class MenuFinalProject extends JFrame implements ActionListener{
       name.setBounds(20, 50, 150, 30);
       name.setVisible(false);
       
+      orderPlaced = new JLabel("Order Placed: ");
+      orderPlaced.setFont(new Font("Arial", Font.PLAIN, 18));
+      orderPlaced.setForeground(new Color(0x000075));
+      orderPlaced.setBounds(20, 100, 150, 30);
+      orderPlaced.setVisible(false);
+
       address = new JLabel("Address");
       address.setFont(new Font("Arial", Font.PLAIN, 18));
       address.setForeground(new Color(0x000075));
@@ -203,6 +211,9 @@ public class MenuFinalProject extends JFrame implements ActionListener{
       panel.add(quantityText);
       panel.add(submitBTN);
       
+      //Reciept GUI
+      
+
       //Set frame visibile       
       this.setVisible(true);
    }
@@ -263,10 +274,12 @@ public class MenuFinalProject extends JFrame implements ActionListener{
             priceText.setText("P25.00");
             this.savePriceText = 25;
             setSavePriceText(savePriceText);
+            setGivenText("Walk-In");
          } else if(this.changeSaveTypeText == 'B'){
             priceText.setText("P35.00");
             this.savePriceText = 35;
             setSavePriceText(savePriceText);
+            setGivenText("Delivery");
          } else if(this.changeSaveTypeText != 'A' || this.changeSaveTypeText != 'B'){
             typeText.setText("Invalid option, please enter A or B only");
          }
@@ -275,7 +288,7 @@ public class MenuFinalProject extends JFrame implements ActionListener{
          this.changeSaveQuantityText = Integer.parseInt(saveQuantityText);
          setChangeSaveQuantityText(this.changeSaveQuantityText);
       } else if(e.getSource()==submitBTN){
-         displayReceipt(displayReceipt);
+         JOptionPane.showMessageDialog(null, "Name + " getSaveNameText() + "\nAddress: " + );
       }
    }
 
@@ -324,9 +337,16 @@ public class MenuFinalProject extends JFrame implements ActionListener{
    public String getDisplayReceipt(){
       return displayReceipt;
    }
-   public void getDisplayReceipt(String displayReceipt){
+   public void setDisplayReceipt(String displayReceipt){
       this.displayReceipt = displayReceipt;
    }
+   //
+    public String getGivenText(){
+        return displayReceipt;
+    }
+    public void setGivenText(String givenText){
+        this.givenText = givenText;
+    }
    
    public void displayReceipt(String display){
       JOptionPane.showMessageDialog(null, display);
