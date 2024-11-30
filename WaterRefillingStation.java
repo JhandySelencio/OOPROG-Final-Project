@@ -7,46 +7,64 @@ public class WaterRefillingStation{
     private double totalAmount;
     private Date orderDate;
 
-    public WaterRefillingStation(int gallon, double price, String stationName, int orderQuantity, Date orderDate){
-        this.gallon = gallon;
-        this.price = price;
-        this.stationName = stationName;
-        this.orderQuantity = orderQuantity;
-        this.totalAmount = totalAmount;
-        this.orderDate = orderDate;
-    }
-
     public int getGallon() {
-        return this.gallon;
+        return gallon;
+    }
+    
+    public void setGallon(int gallon) {
+        this.gallon = gallon;
     }
 
     public double getPrice() {
-        return this.price;
+        return price;
+    }
+    
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getStationName() {
-        return this.stationName;
+        return stationName;
+    }
+    
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
     }
 
     public int getOrderQuantity() {
-        return this.orderQuantity;
+        return orderQuantity;
+    }
+    
+    public void setOrderQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
     }
 
     public double getTotalAmount() {
-        return this.totalAmount;
+        return totalAmount;
+    }
+    
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public Date getOrderDate() {
-        return this.orderDate;
-    }   
+        return orderDate;
+    }  
+    
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    } 
 
-    public void createOrder(String name, String address, int contactNo, Date date, String type, double total) {
-        System.out.println("Name: " + name);
-        System.out.println("Address: " + address);
-        System.out.println("Contact Number: " + contactNo);
-        System.out.println("Order placed: " + date);
-        System.out.println("Type: " + type);
-        System.out.println("Total Amount: " + total);
+    public String createOrder(String name, String address, int contactNo, Date orderDate, String type, double total, int gallon, int orderQuantity){
+        return "RECEIPT" +
+               "\nName: " + name +
+               "\nAddress: " + address +
+               "\nContact Number: " + contactNo +
+               "\nGallon: " + gallon +
+               "\nOrder placed: " + orderDate.display() + 
+               "\nType: " + type +
+               "\nOrder Quantity: " + orderQuantity +
+               "\nTotal Amount: P" + total + "0";
     }
 
     public double calculateTotalAmount(double price, int quantity) {
@@ -54,10 +72,8 @@ public class WaterRefillingStation{
         return this.totalAmount;
     }
 
-    public void displayDeliveryStatus(String staffName, String position, String address, String stationName){
-        System.out.println("Name: " + staffName);
-        System.out.println("Position: " + position);
-        System.out.println("Your gallon will be delivered by " + staffName + " within this day to" + address + ".");
-        System.out.println("Thank your for placing your order in " + stationName + ". Have a great day!");
+    public String displayDeliveryStatus(String staffFirstName, String staffLastName, String position, String address, String stationName){
+        return "Your gallon will be delivered by " + position + ", " + staffFirstName + " " + staffLastName + " within this day to " + address + "." +
+               "\nThank you for placing your order in " + stationName + ". Have a nice day!";
     }
 }
