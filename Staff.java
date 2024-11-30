@@ -21,9 +21,4 @@ public class Staff{
    public String getPosition(){
       return this.position;
    }
-   
-   public void displayStaffInfo(){
-      System.out.println("Name: " + this.firstName + ", " + this.lastName);
-      System.out.println("Position: " + this.position);
-   }
 }
