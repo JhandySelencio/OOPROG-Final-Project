@@ -1,3 +1,4 @@
+// Made by Kiervy Hernani
 public class Date{
    private int day;
    private int month;
@@ -21,11 +22,7 @@ public class Date{
       return this.year;
    }
    
-   public void display(){
-      System.out.print(" " + this.month + "/" + this.day + "/" + this.year);
-   }
-   
-   public void displayDate(){
-      System.out.print("on " + this.month + "/" + this.day + "/" + this.year);
+   public String display(){
+      return " " + this.month + "/" + this.day + "/" + this.year;
    }
 }
