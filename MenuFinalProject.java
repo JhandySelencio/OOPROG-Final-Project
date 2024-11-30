@@ -4,22 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class MenuFinalProject extends JFrame implements ActionListener{
-   
-   //Variables
-   private String displayReceipt;
-   private String givenText;
-   private String saveNameText;
-   private String saveAddressText;
-   private String saveContactNoText;
-   private int changeContactNoText;
-   
-   private String saveTypeText;
-   private double savePriceText;
-   private String saveQuantityText;
-   private char changeSaveTypeText;
-   private double changeSavePriceText;
-   private int changeSaveQuantityText;
+public class MenuFinalProject extends JFrame implements ActionListener{  
+   private String displayText;
+   private String displayName;
+   private String displayAddress;
+   private int displayContactNo;
+
+   private int displayGallon;
+   private double displayPrice;
+   private int displayQuantity;
+   private double displayTotal;
+   private String staffFirstName;
+   private String staffLastName;
    
    //Welcome GUI
    JLabel welcomeSign1;
@@ -46,6 +42,8 @@ public class MenuFinalProject extends JFrame implements ActionListener{
    JTextField priceText;
    JTextField quantityText;
    JButton submitBTN;
+   
+   //Get Receipt GUI
       
    public MenuFinalProject(){
       
@@ -174,10 +172,7 @@ public class MenuFinalProject extends JFrame implements ActionListener{
       submitBTN.addActionListener(this);
       submitBTN.setFocusable(false);
       submitBTN.setVisible(false);
-      
-      //Variables
-      this.displayReceipt = displayReceipt;
-           
+               
       //Main Frame
       this.setTitle("Water Refilling System: Refill and Go");
       this.setSize(600, 400);
@@ -220,6 +215,42 @@ public class MenuFinalProject extends JFrame implements ActionListener{
     
    @Override
    public void actionPerformed(ActionEvent e){
+      
+      Date orderPlace = new Date(30, 11, 2024); //Change this
+      Customer customer = new Customer();
+      WaterRefillingStation wrs = new WaterRefillingStation();
+         
+      int random = (int) (Math.random()*5);
+      switch(random){
+         case 1:
+            setFirstName("Jhandy");
+            setLastName("Selencio");
+            break;
+         case 2:
+            setFirstName("Raymond");
+            setLastName("Sotelo");
+            break;
+         case 3:
+            setFirstName("Edrian");
+            setLastName("Samante");
+            break;
+         case 4:
+            setFirstName("Carlo");
+            setLastName("Cruz");
+            break;
+         case 5:
+            setFirstName("Kiervy");
+            setLastName("Hernani");
+            break;
+      }
+      
+      Staff staff = new Staff(getFirstName(), getLastName(), "Delivery Man");
+      
+      customer.setDate(orderPlace);
+      
+      //Variables
+      char setTypeText;
+          
       if(e.getSource()==startBTN){
          //Set Visibility
          //OFF
@@ -237,15 +268,17 @@ public class MenuFinalProject extends JFrame implements ActionListener{
          contactNoText.setVisible(true);
          proceedBTN.setVisible(true);
       } else if(e.getSource()==nameText){ //Stores the user input
-         this.saveNameText = nameText.getText();
-         setSaveNameText(this.saveNameText);
+         setDisplayName(nameText.getText());
+         customer.setName(getDisplayName());
+         System.out.println("Name: " + customer.getName());
       } else if(e.getSource()==addressText){
-         this.saveAddressText = addressText.getText();
-         setSaveAddressText(this.saveAddressText);
+         setDisplayAddress(addressText.getText());
+         customer.setAddress(getDisplayAddress());
+         System.out.println("Address: " + customer.getAddress());
       } else if(e.getSource()==contactNoText){
-         saveContactNoText = contactNoText.getText();
-         this.changeContactNoText = Integer.parseInt(saveContactNoText);
-         setChangeContactNoText(this.changeContactNoText);
+         setDisplayContactNo(Integer.parseInt(contactNoText.getText()));
+         customer.setContactNumber(getDisplayContactNo());
+         System.out.println("Contact Number: " + customer.getContactNumber());
       } else if(e.getSource()==proceedBTN){
          //Set Visibility
          //OFF
@@ -267,88 +300,118 @@ public class MenuFinalProject extends JFrame implements ActionListener{
          quantityText.setVisible(true);
          submitBTN.setVisible(true);   
       } else if(e.getSource()==typeText){ //Stores the user input 2
-         saveTypeText = typeText.getText();
-         this.changeSaveTypeText = saveTypeText.charAt(0);
-         setChangeSaveTypeText(this.changeSaveTypeText);
-         if(this.changeSaveTypeText == 'A'){
+         setTypeText = typeText.getText().charAt(0);
+         if(setTypeText == 'A'){
             priceText.setText("P25.00");
-            this.savePriceText = 25;
-            setSavePriceText(savePriceText);
-            setGivenText("Walk-In");
-         } else if(this.changeSaveTypeText == 'B'){
+            setDisplayPrice(25);
+            wrs.setPrice(getDisplayPrice());
+            setDisplayType("Walk-In");
+            System.out.println("Price: " + getDisplayPrice());
+            System.out.println("Type: " + getDisplayType());
+         } else if(setTypeText == 'B'){
             priceText.setText("P35.00");
-            this.savePriceText = 35;
-            setSavePriceText(savePriceText);
-            setGivenText("Delivery");
-         } else if(this.changeSaveTypeText != 'A' || this.changeSaveTypeText != 'B'){
+            setDisplayPrice(35);
+            wrs.setPrice(getDisplayPrice());
+            setDisplayType("Delivery");
+            System.out.println("Price: " + getDisplayPrice());
+            System.out.println("Type: " + getDisplayType());
+         } else if(setTypeText != 'A' || setTypeText != 'B'){
             typeText.setText("Invalid option, please enter A or B only");
+            System.out.println("Invalid option, please enter A or B only");
          }
       } else if(e.getSource()==quantityText){
-         saveQuantityText = contactNoText.getText();
-         this.changeSaveQuantityText = Integer.parseInt(saveQuantityText);
-         setChangeSaveQuantityText(this.changeSaveQuantityText);
+         setDisplayGallon(Integer.parseInt(quantityText.getText()));
+         wrs.setGallon(getDisplayGallon());
+         setDisplayQuantity(Integer.parseInt(quantityText.getText()));
+         wrs.setOrderQuantity(getDisplayGallon());
+         System.out.println("Quantity: " + wrs.getOrderQuantity());
+         
+         System.out.println("Price: " + getDisplayPrice() + "\nQuantity: " + getDisplayQuantity() + "\nResult: " + getDisplayPrice()*getDisplayQuantity());
+         setDisplayTotal(wrs.calculateTotalAmount(getDisplayPrice(), getDisplayQuantity()));
+         wrs.setTotalAmount(getDisplayTotal());
+           
+         
       } else if(e.getSource()==submitBTN){
-         JOptionPane.showMessageDialog(null, "Name + " getSaveNameText() + "\nAddress: " + );
+         JOptionPane.showMessageDialog(null, wrs.createOrder(getDisplayName(),
+                                                             getDisplayAddress(),
+                                                             getDisplayContactNo(),
+                                                             customer.getDate(),
+                                                             getDisplayType(),
+                                                             getDisplayPrice()*getDisplayQuantity(),
+                                                             getDisplayGallon(),
+                                                             getDisplayQuantity()));
+         JOptionPane.showMessageDialog(null, wrs.displayDeliveryStatus(staff.getFirstName(), staff.getLastName(), 
+                                             staff.getPosition(), getDisplayAddress(), "Refill and Go: Water Refilling Station"));
       }
    }
-
-   public String getSaveNameText(){
-      return this.saveNameText;
-   }
-   public void setSaveNameText(String saveNameText){
-      this.saveNameText = saveNameText;
-   }
-   //
-   public String getSaveAddressText(){
-      return this.saveAddressText;
-   }
-   public void setSaveAddressText(String saveAddressText){
-      this.saveAddressText = saveAddressText;
-   }
-   //
-   public int getChangeContactNoText(){
-      return this.changeContactNoText;
-   }
-   public void setChangeContactNoText(int changeContactNoText){
-      this.changeContactNoText = changeContactNoText;
-   }
-   //
-   public char getChangeSaveTypeText(){
-      return changeSaveTypeText;
-   }
-   public void setChangeSaveTypeText(char changeSaveTypeText){
-      this.changeSaveTypeText = changeSaveTypeText;
-   }
-   //  
-   public double getSavePriceText(){
-      return savePriceText;
-   }
-   public void setSavePriceText(double savePriceText){
-      this.savePriceText = savePriceText;
-   }
-   //
-   public int getChangeSaveQuantityText(){
-      return this.changeSaveQuantityText;
-   }
-   public void setChangeSaveQuantityText(int changeSaveQuantityText){
-      this.changeSaveQuantityText = changeSaveQuantityText;
-   }
-   //
-   public String getDisplayReceipt(){
-      return displayReceipt;
-   }
-   public void setDisplayReceipt(String displayReceipt){
-      this.displayReceipt = displayReceipt;
-   }
-   //
-    public String getGivenText(){
-        return displayReceipt;
-    }
-    public void setGivenText(String givenText){
-        this.givenText = givenText;
-    }
    
-   public void displayReceipt(String display){
-      JOptionPane.showMessageDialog(null, display);
+   public String getDisplayType(){
+         return displayText;
+   }   
+   public void setDisplayType(String displayText){
+         this.displayText = displayText;
+   }
+   
+   public String getDisplayName(){
+      return displayName;
+   }
+   public void setDisplayName(String displayName){
+      this.displayName = displayName;
+   }
+   
+   public String getDisplayAddress(){
+      return displayAddress;
+   }
+   public void setDisplayAddress(String displayAddress){
+      this.displayAddress = displayAddress;
+   }
+   
+   public int getDisplayContactNo(){
+      return displayContactNo;
+   }
+   public void setDisplayContactNo(int displayContactNo){
+      this.displayContactNo = displayContactNo;
+   }
+   
+   public int getDisplayGallon(){
+      return displayGallon;
+   }
+   public void setDisplayGallon(int displayGallon){
+      this.displayGallon = displayGallon;
+   }
+   
+   public double getDisplayPrice(){
+      return displayPrice;
+   }
+   public void setDisplayPrice(double displayPrice){
+      this.displayPrice = displayPrice;
+   }
+   
+   public int getDisplayQuantity(){
+      return displayQuantity;
+   }
+   public void setDisplayQuantity(int displayQuantity){
+      this.displayQuantity = displayQuantity;
+   }
+   
+   public double getDisplayTotal(){
+      return displayQuantity;
+   }
+   public void setDisplayTotal(double displayTotal){
+      this.displayTotal = displayTotal;
+   }
+   
+   public String getFirstName(){
+      return staffFirstName;
+   }
+   public void setFirstName(String staffFirstName){
+      this.staffFirstName = staffFirstName;
+   }
+   
+   public String getLastName(){
+      return staffLastName;
+   }
+   public void setLastName(String staffLastName){
+      this.staffLastName = staffLastName;
    }
 }
