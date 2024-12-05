@@ -9,6 +9,7 @@ public class MenuFinalProject extends JFrame implements ActionListener{
    private String displayName;
    private String displayAddress;
    private int displayContactNo;
+   private String displayWaterType;
 
    private int displayGallon;
    private double displayPrice;
@@ -28,9 +29,13 @@ public class MenuFinalProject extends JFrame implements ActionListener{
    JLabel name;
    JLabel address;
    JLabel contactNo;
+   JLabel waterType;
    JTextField nameText;
-   JTextField addressText;
+      JTextField addressText;
    JTextField contactNoText;
+   JComboBox<String> comboBox;
+   JRadioButton option1;
+   JRadioButton option2;
    JButton proceedBTN;
    
    //Get Order GUI
@@ -38,7 +43,6 @@ public class MenuFinalProject extends JFrame implements ActionListener{
    JLabel price;
    JLabel quantity;
    JLabel orderPlaced;
-   JTextField typeText;
    JTextField priceText;
    JTextField quantityText;
    JButton submitBTN;
@@ -105,13 +109,19 @@ public class MenuFinalProject extends JFrame implements ActionListener{
       contactNo.setBounds(20, 150, 150, 30);
       contactNo.setVisible(false);
       
+      waterType = new JLabel("Type of Water");
+      waterType.setFont(new Font("Arial", Font.PLAIN, 18));
+      waterType.setForeground(new Color(0x000075));
+      waterType.setBounds(20, 200, 248, 25);
+      waterType.setVisible(false);
+      
       nameText = new JTextField();
-      nameText.setBounds(130, 55, 248, 25);
+      nameText.setBounds(130, 55, 248, 30);
       nameText.addActionListener(this);
       nameText.setVisible(false);
       
       addressText = new JTextField();
-      addressText.setBounds(130, 105, 248, 25);
+      addressText.setBounds(130, 105, 248, 30);
       addressText.addActionListener(this);
       addressText.setVisible(false);
       
@@ -120,8 +130,24 @@ public class MenuFinalProject extends JFrame implements ActionListener{
       contactNoText.addActionListener(this);
       contactNoText.setVisible(false);
       
+      option1 = new JRadioButton("Mineral");
+      option1.addActionListener(this);
+      option1.setBounds(180, 205, 100, 25);
+      option1.setContentAreaFilled(false);
+      option1.setVisible(false);
+      
+      option2 = new JRadioButton("Alkaline");
+      option2.addActionListener(this);
+      option2.setContentAreaFilled(false);
+      option2.setBounds(260, 205, 100, 25);
+      option2.setVisible(false);
+      
+      ButtonGroup group = new ButtonGroup();
+      group.add(option1);
+      group.add(option2);
+      
       proceedBTN = new JButton("Proceed");
-      proceedBTN.setBounds(140, 205, 150, 30);
+      proceedBTN.setBounds(140, 255, 150, 30);
       proceedBTN.setForeground(new Color(0x000075));
       proceedBTN.setFont(new Font("Arial", Font.BOLD, 18));
       proceedBTN.addActionListener(this);
@@ -147,12 +173,13 @@ public class MenuFinalProject extends JFrame implements ActionListener{
       quantity.setBounds(0, 150, 150, 30);
       quantity.setVisible(false);
       
-      typeText = new JTextField("Type (A) for Walk-in, (B) for Delivery");
-      typeText.setFont(new Font("Tahoma", Font.PLAIN, 14));
-      typeText.setForeground(new Color(0x000000));
-      typeText.addActionListener(this);
-      typeText.setBounds(110, 55, 248, 25);
-      typeText.setVisible(false);
+      String[] typeText ={"Walk-in","Delivery"};
+      comboBox = new JComboBox<>(typeText);
+      comboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+      comboBox.setForeground(new Color(0x000000));
+      comboBox.addActionListener(this);
+      comboBox.setBounds(110, 55, 248, 25);
+      comboBox.setVisible(false);
       
       priceText = new JTextField();
       priceText.setBounds(110, 105, 248, 25);
@@ -196,12 +223,15 @@ public class MenuFinalProject extends JFrame implements ActionListener{
       panel.add(addressText);
       panel.add(contactNoText);
       panel.add(proceedBTN);
+      panel.add(waterType);
+      panel.add(option1);
+      panel.add(option2);
       
       //Order GUI
       panel.add(type);
       panel.add(price);
       panel.add(quantity);
-      panel.add(typeText);
+      panel.add(comboBox);
       panel.add(priceText);
       panel.add(quantityText);
       panel.add(submitBTN);
@@ -267,6 +297,9 @@ public class MenuFinalProject extends JFrame implements ActionListener{
          addressText.setVisible(true);
          contactNoText.setVisible(true);
          proceedBTN.setVisible(true);
+         waterType.setVisible(true);
+         option1.setVisible(true);
+         option2.setVisible(true);
       } else if(e.getSource()==nameText){ //Stores the user input
          setDisplayName(nameText.getText());
          customer.setName(getDisplayName());
@@ -276,9 +309,22 @@ public class MenuFinalProject extends JFrame implements ActionListener{
          customer.setAddress(getDisplayAddress());
          System.out.println("Address: " + customer.getAddress());
       } else if(e.getSource()==contactNoText){
+         try{
+            setDisplayContactNo(Integer.parseInt(contactNoText.getText()));
+            customer.setContactNumber(getDisplayContactNo());
+         }
+         catch(NumberFormatException a){
+            JOptionPane.showMessageDialog(null, "Please enter numbers only.");
+         }
          setDisplayContactNo(Integer.parseInt(contactNoText.getText()));
          customer.setContactNumber(getDisplayContactNo());
          System.out.println("Contact Number: " + customer.getContactNumber());
+      } else if(e.getSource()==option1){
+         setWaterType("Mineral Water");
+         System.out.println("Type of Water: " + getWaterType());
+      } else if(e.getSource()==option2){
+         setWaterType("Alkaline WaTer");   
+         System.out.println("Type of Water: " + getWaterType()); 
       } else if(e.getSource()==proceedBTN){
          //Set Visibility
          //OFF
@@ -291,41 +337,45 @@ public class MenuFinalProject extends JFrame implements ActionListener{
          addressText.setVisible(false);
          contactNoText.setVisible(false);
          proceedBTN.setVisible(false);
+         waterType.setVisible(false);
+         option1.setVisible(false);
+         option2.setVisible(false);
          //ON
          type.setVisible(true);
          price.setVisible(true);
          quantity.setVisible(true);
-         typeText.setVisible(true);
+         comboBox.setVisible(true);
          priceText.setVisible(true);
          quantityText.setVisible(true);
          submitBTN.setVisible(true);   
-      } else if(e.getSource()==typeText){ //Stores the user input 2
-         setTypeText = typeText.getText().charAt(0);
-         if(setTypeText == 'A'){
+      } else if(e.getSource()==comboBox){ //Stores the user input 2
+         String selectOption = (String)comboBox.getSelectedItem();
+         if(selectOption == "Walk-in"){
             priceText.setText("P25.00");
             setDisplayPrice(25);
             wrs.setPrice(getDisplayPrice());
             setDisplayType("Walk-In");
             System.out.println("Price: " + getDisplayPrice());
             System.out.println("Type: " + getDisplayType());
-         } else if(setTypeText == 'B'){
+         } else if(selectOption == "Delivery"){
             priceText.setText("P35.00");
             setDisplayPrice(35);
             wrs.setPrice(getDisplayPrice());
             setDisplayType("Delivery");
             System.out.println("Price: " + getDisplayPrice());
             System.out.println("Type: " + getDisplayType());
-         } else if(setTypeText != 'A' || setTypeText != 'B'){
-            typeText.setText("Invalid option, please enter A or B only");
-            System.out.println("Invalid option, please enter A or B only");
          }
       } else if(e.getSource()==quantityText){
-         setDisplayGallon(Integer.parseInt(quantityText.getText()));
-         wrs.setGallon(getDisplayGallon());
-         setDisplayQuantity(Integer.parseInt(quantityText.getText()));
-         wrs.setOrderQuantity(getDisplayGallon());
-         System.out.println("Quantity: " + wrs.getOrderQuantity());
-         
+         try{
+            setDisplayGallon(Integer.parseInt(quantityText.getText()));
+            wrs.setGallon(getDisplayGallon());
+            setDisplayQuantity(Integer.parseInt(quantityText.getText()));
+            wrs.setOrderQuantity(getDisplayGallon());
+            System.out.println("Quantity: " + wrs.getOrderQuantity());
+         }
+         catch(NumberFormatException a){
+             JOptionPane.showMessageDialog(null, "Please enter numbers only.");
+         }
          System.out.println("Price: " + getDisplayPrice() + "\nQuantity: " + getDisplayQuantity() + "\nResult: " + getDisplayPrice()*getDisplayQuantity());
          setDisplayTotal(wrs.calculateTotalAmount(getDisplayPrice(), getDisplayQuantity()));
          wrs.setTotalAmount(getDisplayTotal());
@@ -413,5 +463,13 @@ public class MenuFinalProject extends JFrame implements ActionListener{
    }
    public void setLastName(String staffLastName){
       this.staffLastName = staffLastName;
+   }
+   
+   public String getWaterType(){
+      return displayWaterType;
+   }
+   
+   public void setWaterType(String displayWaterType){
+      this.displayWaterType = displayWaterType;
    }
 }
